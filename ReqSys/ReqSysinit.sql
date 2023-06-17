@@ -29,7 +29,7 @@ CREATE TABLE `user` (
 );
 
 -- 어린이집 입소 시스템 
-CREATE TABLE `Pnursery` (
+CREATE TABLE `nursery` (
   `nursery_id` varchar(15) NOT NULL ,
   `nursery_password` varchar(20) NOT NULL ,
   `nursery_name` varchar(20) NOT NULL , 
@@ -55,5 +55,5 @@ INSERT INTO user (user_id, user_password, user_name, user_brithday, user_postal_
 VALUES ('user01', 'password02', '아마존', '1980-06-06', 11111, '서울시 관악구 신림동', now(), now());
 
 -- 어린이집 입소 시스템
-INSERT INTO Pnursery (nursery_id, nursery_password, nursery_name, nursery_tel, postal_code, address, email, capacity, crt_date, chg_date)
+INSERT INTO nursery (nursery_id, nursery_password, nursery_name, nursery_tel, postal_code, address, email, capacity, crt_date, chg_date)
 VALUES ('nursery001', 'password001', '가나다 어린이집', '010-1234-5678', 12345, '부산시 해운대구 반여동', 'admin@ganada.com', 50, now(), now());
