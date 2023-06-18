@@ -1,0 +1,16 @@
+{
+    "nur_request_id": 1,
+    "user_id": "user01",
+    "child_name": "어피치",
+    "child_birthday": "2020-01-01",
+    "parent_name": "아마존",
+    "parent_tel": "010-0000-0000",
+    "parent_address": "서울시 관악구 신림동",
+    "parent_postcode": 11111,
+    "parent_email": "pandayh7@gmail.com",
+    "nursary_id": "nursery001",
+    "request_date": "2023-06-17",
+    "req_status": 1,
+    "crt_date": "2023-06-18 00:11:52",
+    "chg_date": "2023-06-18 00:11:52"
+  }
