@@ -1,35 +1,90 @@
 const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient, ExecuteStatementCommand } = require('@aws-sdk/lib-dynamodb');
 
 const handler = async(event) => {
   const client = new DynamoDBClient({ region: 'ap-northeast-2' });
+  const docClient = DynamoDBDocumentClient.from(client);
 
   for (const record of event.Records) {
-    const recBody = JSON.parse(record.body);
+    const reqBody = JSON.parse(record.body);
+    const reqStatus = record.messageAttributes.Status.stringValue;
+    const request_id = reqBody.child_id + reqBody.nursery_id;
+    
+    const command = new ExecuteStatementCommand({
+      Statement: `SELECT * FROM request4 WHERE request_id = '${request_id}' ORDER BY create_date DESC`,
+      Parameters: [false],
+      ConsistentRead: false
+    });
+    
+    let lastStatus= '';
+    try {
+      const res = await docClient.send(command);
+      lastStatus = res.Items[0].request_status;
+      
+      console.log(res);
+    } catch (err) {
+      lastStatus = '';
+      
+      console.log(err);
+    }
+  
     const input = {
       TableName: process.env.TABLE_NAME,
       Item: {
-        child_id: { N: recBody.child_id },
-        child_name: { S: recBody.child_name },
-        child_birthday: { S: recBody.child_birthday },
-        user_id: { S: recBody.user_id },
-        parent_name: { S: recBody.parent_name },
-        parent_tel: { S: recBody.parent_tel },
-        parent_address: { S: recBody.parent_address },
-        parent_postcode: { S: recBody.parent_postcode },
-        parent_email: { S: recBody.parent_email },
-        nursery_id: { S: recBody.nursery_id },
-        status: { N: recBody.status },
-        create_date: { S: recBody.create_date }
+        request_id: {
+          S: request_id
+        },
+        request_status: {
+          N: reqBody.request_status
+        },
+        child_id: { 
+          N: reqBody.child_id 
+        },
+        child_name: { 
+          S: reqBody.child_name
+        },
+        child_birthday: { 
+          S: reqBody.child_birthday
+        },
+        user_id: { 
+          S: reqBody.user_id
+        },
+        parent_name: { 
+          S: reqBody.parent_name
+        },
+        parent_tel: { 
+          S: reqBody.parent_tel
+        },
+        parent_address: {
+          S: reqBody.parent_address
+        },
+        parent_postcode: { 
+            S: reqBody.parent_postcode
+        },
+        parent_email: { 
+          S: reqBody.parent_email
+        },
+        nursery_id: { 
+          S: reqBody.nursery_id
+        },
+        create_date: { 
+          S: reqBody.create_date
+        }
       },
-      ConditionExpression: "attribute_not_exists(child_id) AND attribute_not_exists(nursery_id)"
     };
 
-    try {
-      const res = await client.send(new PutItemCommand(input));
-      console.log(res);
-    } catch (err) {
-      console.log('아동의 해당 어린이집 입소대기 신청이 중복되어 실패');
-      console.log(err);
+    console.log(input);
+    
+    //1 : 신청, 99 : 취소, 2 : 승인, 88: 반려
+    if ((reqStatus === 'Request' && lastStatus !== 1) || (reqStatus !== 'Request' && lastStatus === 1)) {
+      try {
+        const res = await client.send(new PutItemCommand(input));
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log('조건에 맞지 않아 실행되지 아니한다.');
     }
   }
 };
