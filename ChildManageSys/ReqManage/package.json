@@ -1,0 +1,20 @@
+{
+  "name": "nursery-enterwait",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.354.0",
+    "moment": "^2.29.4",
+    "mysql": "^2.18.1",
+    "sqs-consumer": "^7.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1"
+  }
+}
