@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: reqsys-backend
   annotations:
-    alb.ingress.kubernetes.io/healthcheck-path: "/contents/aws"
+    alb.ingress.kubernetes.io/healthcheck-path: "/"
 spec:
   selector:
     app: reqsys-backend
