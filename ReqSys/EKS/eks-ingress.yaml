@@ -1,0 +1,23 @@
+# 클러스터 내의 서비스에 대한 외부 접근을 관리하는 API 게이트웨이
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: "reqsys-backend-ingress"
+    namespace: default
+    annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/group.name: eks-reqsys-group
+      alb.ingress.kubernetes.io/group.order: '1'
+spec:
+    rules:
+    - http:
+        paths:
+          - path: /contents
+            pathType: Prefix
+            backend:
+              service:
+                name: "reqsys-backend"
+                port:
+                  number: 3000
