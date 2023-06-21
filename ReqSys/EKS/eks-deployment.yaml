@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: reqsys-backend
+  name: eks-reqsys-backend
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: reqsys-backend
+      app: eks-reqsys-backend
   template:
     metadata:
       labels:
-        app: reqsys-backend
+        app: eks-reqsys-backend
     spec:
       containers:
-        - name: reqsys-backend
+        - name: eks-reqsys-backend
           image: 131466135658.dkr.ecr.ap-northeast-2.amazonaws.com/reqsys:latest
           imagePullPolicy: Always
           ports:

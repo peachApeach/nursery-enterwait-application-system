@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: reqsys-backend
+  name: eks-reqsys-backend
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: "/"
 spec:
   selector:
-    app: reqsys-backend
+    app: eks-reqsys-backend
   type: NodePort
   ports:
     - port: 3000 # 서비스가 생성할 포트  

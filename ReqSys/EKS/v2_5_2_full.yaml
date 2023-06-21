@@ -852,7 +852,7 @@ spec:
     spec:
       containers:
       - args:
-        - --cluster-name=eks-test1
+        - --cluster-name=eks-reqsys
         - --ingress-class=alb
         image: public.ecr.aws/eks/aws-load-balancer-controller:v2.5.2
         livenessProbe:
