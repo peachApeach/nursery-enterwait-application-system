@@ -3,13 +3,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: "reqsys-backend-ingress"
+    name: "eks-reqsys-backend-ingress"
     namespace: default
     annotations:
       kubernetes.io/ingress.class: alb
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/target-type: ip
-      alb.ingress.kubernetes.io/group.name: eks-node-group
+      alb.ingress.kubernetes.io/group.name: eks-reqsys-group
       alb.ingress.kubernetes.io/group.order: '1'
 spec:
     rules:
@@ -19,6 +19,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: "reqsys-backend"
+                name: "eks-reqsys-backend"
                 port:
                   number: 3000
