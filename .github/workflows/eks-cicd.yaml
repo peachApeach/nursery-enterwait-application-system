@@ -44,9 +44,8 @@ jobs:
       run: |
         cd site
         docker image build \
+        --build-arg TOPIC_ARN=${{ secrets.TOPIC_ARN }} \
         --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest \
-        --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest \
-        --build-arg TOPIC_ARN=${{ secrets.TOPIC_ARN }}
         .
         docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
         
