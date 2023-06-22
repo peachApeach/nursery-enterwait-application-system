@@ -1,4 +1,4 @@
-name: Deploy to Amazon ECS
+name: EKS CICD
 
 on:
   push:
@@ -42,10 +42,9 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        cd site
-        docker image build \
-        --build-arg TOPIC_ARN=${{ secrets.TOPIC_ARN }} \
+        docker build \
         --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest \
+        --build-arg TOPIC_ARN=${{ secrets.TOPIC_ARN }} \
         .
         docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
         
