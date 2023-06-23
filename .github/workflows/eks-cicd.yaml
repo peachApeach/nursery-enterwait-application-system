@@ -29,8 +29,8 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_1 }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_1 }}
         aws-region: ${{ env.AWS_REGION }}
             
     - name: Login to Amazon ECR
@@ -66,12 +66,8 @@ jobs:
         envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
         aws configure list
         kubectl config current-context 
-        mkdir -p $HOME/.kube
-        sudo cp -i kubeconfig.yaml $HOME/.kube/config
-        sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
         kubectl get pod
-        kubectl kustomize ReqSys/EKS | kubectl apply -f ReqSys/EKS/
+        kubectl kustomize ReqSys/EKS | kubectl apply -f -
 
 
     # - name: Install and configure kubectl
