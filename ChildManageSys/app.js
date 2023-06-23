@@ -1,28 +1,21 @@
-'use strict'
+const express = require('express');
+const app = express();
+const port = 4000;
 
-const path = require('path')
-const AutoLoad = require('@fastify/autoload')
+app.get('/', (req, res) => {
+  res.status(200).send('Hello, World!');
+});
 
-// Pass --options via CLI arguments in command to enable these options.
-module.exports.options = {}
+app.use(express.json());
 
-module.exports = async function (fastify, opts) {
-  // Place here your custom code!
+app.use('/admin/init', require('./route/admin/init'));
 
-  // Do not touch the following lines
+app.use('/request/accept', require('./route/request/accept'));
+app.use('/request/reject', require('./route/request/reject'));
 
-  // This loads all plugins defined in plugins
-  // those should be support plugins that are reused
-  // through your application
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'plugins'),
-    options: Object.assign({}, opts)
-  })
+app.use('/enterwait/request', require('./route/enterwait/request'));
+app.use('/enterwait/cancel', require('./route/enterwait/cancel'));
 
-  // This loads all plugins defined in routes
-  // define your routes in one of these
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'routes'),
-    options: Object.assign({}, opts)
-  })
-}
+app.listen(port, () => {
+  console.log(`Nursery System listening on port ${port}...`);
+});
