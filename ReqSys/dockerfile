@@ -4,7 +4,11 @@ FROM node:18-alpine3.16
 WORKDIR /app
 # 컨테이너 내 work directory 설정
 
+<<<<<<< HEAD
 COPY package*.json ./
+=======
+COPY ./package.json .
+>>>>>>> 92d7bd88edc8efe2b331e9234fe11c630f50d122
 # 현재 프로젝트의 package로 시작되는 모든 json 파일을 컨테이너 WORKDIR에 복사 
 
 RUN npm install
