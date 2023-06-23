@@ -60,12 +60,11 @@ jobs:
       run: |
         curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
         sudo mv kustomize /usr/local/bin
-        ls -L
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
         export IMAGE_TAG=latest
         export KUBECONFIG=kubeconfig.yaml
         envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
-        kubectl kustomize k8s | kubectl apply -f -
+        kubectl kustomize ReqSys/EKS | kubectl apply -f -
 
 
     # - name: Install and configure kubectl
