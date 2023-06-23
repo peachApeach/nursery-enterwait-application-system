@@ -45,7 +45,7 @@ jobs:
         docker build \
         --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest \
         --build-arg TOPIC_ARN=${{ secrets.TOPIC_ARN }} \
-        .
+        ./ReqSys
         docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
         
     - name: Install and configure kubectl

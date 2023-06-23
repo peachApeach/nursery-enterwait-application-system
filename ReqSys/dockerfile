@@ -4,13 +4,13 @@ FROM node:18-alpine3.16
 WORKDIR /app
 # 컨테이너 내 work directory 설정
 
-COPY ReqSys/package*.json .
+COPY ./ReqSys/package*.json .
 # 현재 프로젝트의 package로 시작되는 모든 json 파일을 컨테이너 WORKDIR에 복사 
 
 RUN npm install
 # 이미지 생성 시 필요한 모듈 설치 
 
-COPY ReqSys/ .
+COPY ./ReqSys/ .
 # 컨테이너 WORKDIR에 현재 프로젝트 내용 모두 복사
 
 EXPOSE 3000
