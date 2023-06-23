@@ -1,4 +1,4 @@
-#ecr 리포지토리 참조
+#ecr 리포지토리 참조 
 data "aws_ecr_repository" "childmanagesys" {
   name = "childmanagesys" # 실제 ECR 리포지토리 이름으로 교체해야 합니다.
 }
