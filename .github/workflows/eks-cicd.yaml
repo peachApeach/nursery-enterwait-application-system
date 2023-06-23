@@ -60,7 +60,7 @@ jobs:
         echo "Success x chmod"
         sudo mv kubectl /usr/local/bin/
         cd /usr/local/bin/
-        ls
+        ls 
         echo ${{ secrets.KUBECONFIG }} | base64
         echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
         echo "Success write kubeconfig"
