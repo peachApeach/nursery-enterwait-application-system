@@ -67,7 +67,7 @@ jobs:
         aws configure list
         kubectl config current-context 
         mkdir -p $HOME/.kube
-        sudo cp -i kubeconfig.yaml.conf $HOME/.kube/config
+        sudo cp -i kubeconfig.yaml $HOME/.kube/config
         sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
         kubectl get pod
