@@ -64,7 +64,8 @@ jobs:
         export IMAGE_TAG=latest
         export KUBECONFIG=kubeconfig.yaml
         envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
-        kubectl kustomize ReqSys/EKS | kubectl apply -f -
+        aws configure list
+        kubectl kustomize ReqSys/EKS | kubectl apply -f ReqSys/EKS/
 
 
     # - name: Install and configure kubectl
