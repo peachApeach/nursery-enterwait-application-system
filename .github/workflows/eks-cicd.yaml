@@ -55,9 +55,14 @@ jobs:
             --progress-bar \
             --location \
             --remote-name
+        echo "Success Download"
         chmod +x kubectl
+        echo "Success x chmod"
         sudo mv kubectl /usr/local/bin/
+        pwd
+        echo ${{ secrets.KUBECONFIG }} | base64
         echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
+        echo "Success write kubeconfig"
         
     - name: Deploy
       env:
