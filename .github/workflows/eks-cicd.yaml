@@ -66,6 +66,10 @@ jobs:
         envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
         aws configure list
         kubectl config current-context 
+        mkdir -p $HOME/.kube
+        sudo cp -i kubeconfig.yaml.conf $HOME/.kube/config
+        sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
         kubectl get pod
         kubectl kustomize ReqSys/EKS | kubectl apply -f ReqSys/EKS/
 
