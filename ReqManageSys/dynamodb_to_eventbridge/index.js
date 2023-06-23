@@ -1,10 +1,12 @@
 const { EventBridgeClient, PutEventsCommand } = require('@aws-sdk/client-eventbridge');
 
 const handler = async (event) => {
-  const client = new EventBridgeClient({ region: 'ap-northeast-2' });
+  const client = new EventBridgeClient();
 
   for (const record of event.Records) {
     let request_status = '';
+    console.log(record);
+    
     switch(record.dynamodb.NewImage.request_status.N) {
       case '1':
         request_status = 'Request';
@@ -27,10 +29,11 @@ const handler = async (event) => {
           Source: 'DynamoDB',
           DetailType: request_status,
           Detail: JSON.stringify(record),
-          EventBusName: 'default'
+          EventBusName: process.env.EVENT_BUS_NAME
         }
       ]
     };
+    console.log(input);
 
     try {
       const res = await client.send(new PutEventsCommand(input));
