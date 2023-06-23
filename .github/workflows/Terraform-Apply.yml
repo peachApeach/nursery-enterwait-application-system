@@ -44,5 +44,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
         MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-      run:
-        terraform apply "planfile"
+      run: |
+        terraform apply "planfile" \
+          -var 'db_username= ${{ env.MYSQL_USERNAME }}' \
+          -var 'db_password= ${{ env.MYSQL_PASSWORD }}'

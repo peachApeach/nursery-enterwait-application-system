@@ -1,18 +1,14 @@
-name: ECR-ChildManageSys
-
-# on:
-#   push:
-#     branches: [ "main" ]
+name: Push Image to ECR-childmanagesys
 
 on:
-  pull_request:
+  push:
     paths:
-      - 'childmanagesys/**'
+      - 'ChildManageSys/**'
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: childmanagesys-test
-  
+  ECR_REPOSITORY: childmanagesys
+
 permissions:
   contents: read
 
@@ -42,5 +38,5 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./childmanagesys
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./ChildManageSys
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
