@@ -1,25 +1,36 @@
-# Getting Started with [Fastify-CLI](https://www.npmjs.com/package/fastify-cli)
-This project was bootstrapped with Fastify-CLI.
+# 아동관리시스템(ChildManageSys)
+### 환경변수
+- HOSTNAME: 데이터베이스 호스트명
+- USERNAME: 데이터베이스 유저명
+- PASSWORD: 데이터베이스 비밀번호
+- DATABASE: 사용 데이터베이스명(기본적으로 nursery 사용 권장)
+- REGION: 사용할 리전
+- AWS_ACCESS_KEY_ID: AWS IAM 액세스키
+- AWS_SECRET_ACCESS_KEY: AWS IAM 시크릿액세스키
+  - 해당 액세스키는 sqs:SendMessage 권한을 가지고 있어야합니다.
+- QUEUE_URL: 통합 이벤트 큐 URL
 
-## Available Scripts
+dev 환경에서는 dotenv를 사용할 수 있습니다.
 
-In the project directory, you can run:
-
-### `npm run dev`
-
-To start the app in dev mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-### `npm start`
-
-For production mode
-
-### `npm run test`
-
-Run the test cases.
-
-## Learn More
-
-To learn Fastify, check out the [Fastify documentation](https://www.fastify.io/docs/latest/).
-
-test1
+### API 엔드포인트
+#### GET /admin/init (DB 초기화)
+DROP 미구현으로 RDS 생성 후 최초 1회에만 정상 동작합니다.
+#### POST /request/accept (승인)
+#### POST /request/reject (반려)
+#### POST /enterwait/request (입소대기신청시스템에서 신청한 정보 동기화)
+#### POST /enterwait/cancel (입소대기신청시스템에서 취소한 정보 동기화)
+POST 요청의 body는 JSON 포맷으로 내용은 동일합니다.
+```JSON
+{
+    "child_id": "202301013333333",
+    "child_name": "namae",
+    "child_birthday": "20230101",
+    "user_id": "user",
+    "parent_name": "onamae",
+    "parent_tel": "010-0000-0000",
+    "parent_address": "address",
+    "parent_postcode": "00001",
+    "parent_email": "user@email.com",
+    "nursery_id": "A00017"
+}
+```

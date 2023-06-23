@@ -1,0 +1,14 @@
+{
+  "name": "send_email",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@aws-sdk/client-ses": "^3.357.0"
+  }
+}
