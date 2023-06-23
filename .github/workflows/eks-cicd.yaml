@@ -48,19 +48,26 @@ jobs:
         ./ReqSys
         docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
 
-    - name: Get kubeconfig"
+    - name: Get kubeconfig
       run:
         aws eks update-kubeconfig --name eks-reqsys --region ap-northeast-2 --kubeconfig kubeconfig.yaml
 
     - uses: tale/kubectl-action@v1
       with:
         base64-kube-config: kubeconfig.yaml
-    - name: Set KubeConfig
+
+    - name: Deploy new image
       run: |
+        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+        sudo mv kustomize /usr/local/bin
         ls -L
-        cd /home/
-        ls -L
-        
+        export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
+        export IMAGE_TAG=latest
+        export KUBECONFIG=kubeconfig.yaml
+        envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
+        kubectl kustomize k8s | kubectl apply -f -
+
+
     # - name: Install and configure kubectl
     #   run: |
     #     VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
