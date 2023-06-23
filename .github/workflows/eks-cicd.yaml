@@ -66,6 +66,7 @@ jobs:
         envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
         aws configure list
         kubectl config current-context 
+        kubectl get pod
         kubectl kustomize ReqSys/EKS | kubectl apply -f ReqSys/EKS/
 
 
