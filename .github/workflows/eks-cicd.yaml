@@ -60,7 +60,7 @@ jobs:
         echo "Success x chmod"
         sudo mv kubectl /usr/local/bin/
         pwd
-        aws eks update-kubeconfig --name peachapeach@eks-reqsys.ap-northeast-2.eksctl.io --region ap-northeast-2 --kubeconfig kubeconfig.yaml
+        aws eks update-kubeconfig --name eks-reqsys --region ap-northeast-2 --kubeconfig kubeconfig.yaml
         echo "Success write kubeconfig"
         cd /home/.kube
         ll
