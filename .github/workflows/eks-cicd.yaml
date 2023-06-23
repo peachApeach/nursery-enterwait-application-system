@@ -47,36 +47,49 @@ jobs:
         --build-arg TOPIC_ARN=${{ secrets.TOPIC_ARN }} \
         ./ReqSys
         docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
-        
-    - name: Install and configure kubectl
-      run: |
-        VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-        curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
-            --progress-bar \
-            --location \
-            --remote-name
-        echo "Success Download"
-        chmod +x kubectl
-        echo "Success x chmod"
-        sudo mv kubectl /usr/local/bin/
-        pwd
-        aws eks update-kubeconfig --name eks-reqsys --region ap-northeast-2 --kubeconfig kubeconfig.yaml
-        echo "Success write kubeconfig"
-        pwd
-        
-    - uses: actions-hub/checkout@master
-      env:
-        KUBE_CONFIG: kubeconfig.yaml
 
-    - name: Deploy
-      env:
-        ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+    - name: Get kubeconfig"
+      run:
+        aws eks update-kubeconfig --name eks-reqsys --region ap-northeast-2 --kubeconfig kubeconfig.yaml
+
+    - uses: tale/kubectl-action@v1
+      with:
+        base64-kube-config: kubeconfig.yaml
+    - name: Set KubeConfig
       run: |
-        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-        sudo mv kustomize /usr/local/bin
-        ls -L
-        export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
-        export IMAGE_TAG=latest
-        export KUBECONFIG=kubeconfig.yaml
-        envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
-        kubectl kustomize k8s | kubectl apply -f -
+        ll
+        cd /home/
+        ll
+        
+    # - name: Install and configure kubectl
+    #   run: |
+    #     VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    #     curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
+    #         --progress-bar \
+    #         --location \
+    #         --remote-name
+    #     echo "Success Download"
+    #     chmod +x kubectl
+    #     echo "Success x chmod"
+    #     sudo mv kubectl /usr/local/bin/
+    #     pwd
+    #     aws eks update-kubeconfig --name eks-reqsys --region ap-northeast-2 --kubeconfig kubeconfig.yaml
+    #     echo "Success write kubeconfig"
+    #     pwd
+        
+    # - uses: actions-hub/checkout@master
+    #   env:
+    #     KUBE_CONFIG: kubeconfig.yaml
+
+    # - name: Deploy
+    #   env:
+    #     ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+    #   run: |
+    #     curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+    #     sudo mv kustomize /usr/local/bin
+    #     ls -L
+    #     export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
+    #     export IMAGE_TAG=latest
+    #     export KUBECONFIG=kubeconfig.yaml
+    #     envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
+    #     kubectl kustomize k8s | kubectl apply -f -
