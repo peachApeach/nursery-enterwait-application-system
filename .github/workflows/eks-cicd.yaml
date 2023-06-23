@@ -62,7 +62,7 @@ jobs:
         pwd
         aws eks update-kubeconfig --name eks-reqsys --region ap-northeast-2 --kubeconfig kubeconfig.yaml
         echo "Success write kubeconfig"
-        ls -l
+        pwd
         
     - name: Deploy
       env:
