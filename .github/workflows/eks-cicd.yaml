@@ -57,9 +57,9 @@ jobs:
         base64-kube-config: kubeconfig.yaml
     - name: Set KubeConfig
       run: |
-        ll
+        ls -L
         cd /home/
-        ll
+        ls -L
         
     # - name: Install and configure kubectl
     #   run: |
