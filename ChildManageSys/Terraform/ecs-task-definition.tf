@@ -1,6 +1,6 @@
 #ecr 리포지토리 참조
-data "aws_ecr_repository" "reqsys-test" {
-  name = "reqsys-test" # 실제 ECR 리포지토리 이름으로 교체해야 합니다.
+data "aws_ecr_repository" "childmanagesys" {
+  name = "childmanagesys" # 실제 ECR 리포지토리 이름으로 교체해야 합니다.
 }
 
 #ecs-task_definition 생성
@@ -17,7 +17,7 @@ resource "aws_ecs_task_definition" "final-project-ecs" {
   container_definitions = jsonencode([
     {
       name  = "final-project-ecs-task"
-      image = "${data.aws_ecr_repository.reqsys-test.repository_url}:latest" #뒤의 latest 태그 부분은 초기 ECS 구축 후 github action의 ECS Deploy시 태그 정상 활성화
+      image = "${data.aws_ecr_repository.childmanagesys.repository_url}:latest" #뒤의 latest 태그 부분은 초기 ECS 구축 후 github action의 ECS Deploy시 태그 정상 활성화
       portMappings = [
         {
           "protocol"= "tcp"
