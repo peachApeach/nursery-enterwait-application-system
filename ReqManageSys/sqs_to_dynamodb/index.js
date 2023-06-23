@@ -1,8 +1,8 @@
 const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
 const { DynamoDBDocumentClient, ExecuteStatementCommand } = require('@aws-sdk/lib-dynamodb');
 
-const handler = async(event) => {
-  const client = new DynamoDBClient({ region: 'ap-northeast-2' });
+const handler = async (event) => {
+  const client = new DynamoDBClient();
   const docClient = DynamoDBDocumentClient.from(client);
 
   for (const record of event.Records) {
@@ -11,7 +11,7 @@ const handler = async(event) => {
     const request_id = reqBody.child_id + reqBody.nursery_id;
     
     const command = new ExecuteStatementCommand({
-      Statement: `SELECT * FROM request4 WHERE request_id = '${request_id}' ORDER BY create_date DESC`,
+      Statement: `SELECT * FROM ${process.env.TABLE_NAME} WHERE request_id = '${request_id}' ORDER BY create_date DESC`,
       Parameters: [false],
       ConsistentRead: false
     });
@@ -38,7 +38,7 @@ const handler = async(event) => {
           N: reqBody.request_status
         },
         child_id: { 
-          N: reqBody.child_id 
+          S: reqBody.child_id 
         },
         child_name: { 
           S: reqBody.child_name
@@ -59,7 +59,7 @@ const handler = async(event) => {
           S: reqBody.parent_address
         },
         parent_postcode: { 
-            S: reqBody.parent_postcode
+          S: reqBody.parent_postcode
         },
         parent_email: { 
           S: reqBody.parent_email

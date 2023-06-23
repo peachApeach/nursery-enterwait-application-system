@@ -1,15 +1,14 @@
 {
-  "name": "dte",
+  "name": "dynamodb_to_eventbridge",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@aws-sdk/client-eventbridge": "^3.354.0"
+    "@aws-sdk/client-eventbridge": "^3.357.0"
   }
 }
