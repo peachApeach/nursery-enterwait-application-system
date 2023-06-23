@@ -2,46 +2,20 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-require('dotenv').config();
-
-const { SQSClient, SendMessageCommand } = require('@aws-sdk/client-sqs');
+app.get('/', (req, res) => {
+  res.status(200).send('Hello, World!');
+});
 
 app.use(express.json());
 
-app.get('/', function(req, res) {
-  res.send('hello world');
-});
+app.use('/admin/init', require('./route/admin/init'));
 
-app.post('/enterwait/request', async function(req, res) {
+app.use('/enterwait/request', require('./route/enterwait/request'));
+app.use('/enterwait/cancel', require('./route/enterwait/cancel'));
 
-  const sqsClient = new SQSClient({ region: 'ap-northeast-2' });
-
-  const reqBody = req.body;
-  reqBody.create_date = new Date(Date.now()).toISOString();
-  reqBody.status = "1";
-
-  const params = {
-    QueueUrl: process.env.TOPIC_ARN,
-    MessageBody: JSON.stringify(reqBody),
-    MessageAttributes: {
-      "Status": {
-        DataType: "String",
-        StringValue: "Request"
-      }
-    }
-  };
-  
-  try {
-    const data = await sqsClient.send(new SendMessageCommand(params));
-    console.log(data);
-  } catch (err) {
-    console.log(err);
-  }
-
-  const body = req.body;
-  res.send(body);
-});
+app.use('/request/accept', require('./route/request/accept'));
+app.use('/request/reject', require('./route/request/reject'));
 
 app.listen(port, () => {
-  console.log(`Enterwait Request System listening on port ${port}`);
+  console.log(`Enterwait Request System listening on port ${port}...`);
 });
