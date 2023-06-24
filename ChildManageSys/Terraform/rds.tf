@@ -12,5 +12,5 @@ resource "aws_db_instance" "mysql" {
     port = 3306
     skip_final_snapshot = true
     db_subnet_group_name = aws_db_subnet_group.final-project-rds-db-subnet-group.name
-    vpc_security_group_ids = [aws_security_group.final-project-ecs-private-security-group.id, aws_security_group.rds-ecs-sg.id]
+    vpc_security_group_ids = [aws_security_group.final-project-ecs-private-security-group.id]
 }
