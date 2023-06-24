@@ -14,7 +14,7 @@ const connection = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    res.status(500).send('DB Connection Error!', process.env.HOSTNAME, process.env.USERNAME, process.env.PASSWORD, process.env.DATABASE);
+    res.status(500).send(`DB Connection Error!, ${process.env.HOSTNAME}, ${process.env.USERNAME}, ${process.env.PASSWORD}, ${process.env.DATABASE}`);
   }
 };
 
