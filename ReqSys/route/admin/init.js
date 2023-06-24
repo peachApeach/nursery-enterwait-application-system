@@ -3,10 +3,10 @@ const { connection, queries: { cRequest, cNursery, cChild, cUser } } = require('
 
 router.get('/', connection, async (req, res) => {
   try {
-    const [ crResult ] = await connection.query(cRequest());
-    const [ cnResult ] = await connection.query(cNursery());
-    const [ ccResult ] = await connection.query(cChild());
-    const [ cuResult ] = await connection.query(cUser());
+    const [ crResult ] = await req.connection.query(cRequest());
+    const [ cnResult ] = await req.connection.query(cNursery());
+    const [ ccResult ] = await req.connection.query(cChild());
+    const [ cuResult ] = await req.connection.query(cUser());
     res.send('DB 초기화에 성공하였습니다.');
   } catch (err) {
     console.log(err);
