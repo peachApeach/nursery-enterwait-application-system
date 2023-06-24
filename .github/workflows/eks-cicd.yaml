@@ -45,8 +45,8 @@ jobs:
         docker build \
         --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest \
         --build-arg HOSTNAME=${{ secrets.REQSYS_HOSTNAME }} \
-        --build-arg USERNAME=${{ secrets.MYSQL_USERNAME }} \
-        --build-arg PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
+        --build-arg USERNAME=${{ secrets.REQSYS_USERNAME }} \
+        --build-arg PASSWORD=${{ secrets.REQSYS_PASSWORD }} \
         --build-arg DATABASE=${{ secrets.REQSYS_DATABASE }} \
         --build-arg AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_1 }} \
         --build-arg AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_1 }} \
