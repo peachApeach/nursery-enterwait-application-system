@@ -2,6 +2,22 @@ FROM node:hydrogen-alpine3.18
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --omit-dev
+
+ARG HOSTNAME="Default_Value"
+ARG USERNAME="Default_Value"
+ARG PASSWORD="Default_Value"
+ARG DATABASE="Default_Value"
+ARG AWS_ACCESS_KEY_ID="Default_Value"
+ARG AWS_SECRET_ACCESS_KEY="Default_Value"
+ARG QUEUE_URL="Default_Value"
+RUN echo "HOSTNAME is ${HOSTNAME}"
+RUN echo "USERNAME is ${USERNAME}"
+RUN echo "PASSWORD is ${PASSWORD}"
+RUN echo "DATABASE is ${DATABASE}"
+RUN echo "AWS_ACCESS_KEY_ID is ${AWS_ACCESS_KEY_ID}"
+RUN echo "AWS_SECRET_ACCESS_KEY is ${AWS_SECRET_ACCESS_KEY}"
+RUN echo "QUEUE_URL is ${QUEUE_URL}"
+
 COPY . .
 EXPOSE 3000
 CMD [ "node", "app.js" ]
