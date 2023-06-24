@@ -14,24 +14,24 @@ resource "aws_security_group" "final-project-ecs-private-security-group" {
   }
 }
 
-resource "aws_security_group" "rds-ecs-sg" {
-  name = "rds-ecs-sg"
-  vpc_id = aws_vpc.final-project-ecs-vpc.id
+# resource "aws_security_group" "rds-ecs-sg" {
+#   name = "rds-ecs-sg"
+#   vpc_id = aws_vpc.final-project-ecs-vpc.id
   
-  ingress {
-    from_port = 3306
-    to_port = 3306
-    protocol = "tcp"
-    security_groups = [aws_security_group.final-project-ecs-private-security-group.id]
-  }
+#   ingress {
+#     from_port = 3306
+#     to_port = 3306
+#     protocol = "tcp"
+#     security_groups = [aws_security_group.final-project-ecs-private-security-group.id]
+#   }
 
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
+#   egress {
+#     from_port = 0
+#     to_port = 0
+#     protocol = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
 
 resource "aws_security_group_rule" "final-project-ecs-public-security-group-rule1" {
   type = "ingress"
