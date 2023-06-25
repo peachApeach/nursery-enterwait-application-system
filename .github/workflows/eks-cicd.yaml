@@ -41,8 +41,8 @@ jobs:
     - name: Get SQS ARN
       id: get-sqs-arn
       run: |
-        queue_name=<SQS_QUEUE_NAME>
-        queue_url=$(aws sqs get-queue-url --queue-name "IntegrateEventQueue" --query 'QueueUrl' --output text)
+        queue_name=IntegrateEventQueue
+        queue_url=$(aws sqs get-queue-url --queue-name "$queue_name" --query 'QueueUrl' --output text)
         queue_arn=$(aws sqs get-queue-attributes --queue-url "$queue_url" --attribute-names QueueArn --query 'Attributes.QueueArn' --output text)
         echo "SQS ARN: $queue_arn"
         echo "::set-output name=sqs_arn::$queue_arn"  
