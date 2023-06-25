@@ -40,7 +40,7 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
-        ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         docker build \
         --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest \
@@ -59,24 +59,18 @@ jobs:
         chmod +x kubectl
         echo "Success x chmod"
         sudo mv kubectl /usr/local/bin/
-        pwd
-        aws eks update-kubeconfig --name eks-reqsys --region ap-northeast-2 --kubeconfig kubeconfig.yaml
+        cd /usr/local/bin/
+        ls 
+        echo ${{ secrets.KUBECONFIG }} | base64
+        echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
         echo "Success write kubeconfig"
-        pwd
         
-    - uses: actions-hub/checkout@master
-      env:
-        KUBE_CONFIG: kubeconfig.yaml
-
     - name: Deploy
       env:
-        ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-        sudo mv kustomize /usr/local/bin
-        ls -L
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
         export IMAGE_TAG=latest
         export KUBECONFIG=kubeconfig.yaml
-        envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
+        envsubst < k8s/kustomization.tmpl.yaml > k8s/kustomization.yaml
         kubectl kustomize k8s | kubectl apply -f -
