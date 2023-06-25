@@ -71,5 +71,5 @@ jobs:
         export KUBECONFIG=kubeconfig.yaml
         envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
         kubectl config current-context 
-        kubectl kustomize ReqSys/EKS | kubectl apply -f -
+        kubectl k ReqSys/EKS
 
