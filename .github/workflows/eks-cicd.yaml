@@ -2,7 +2,7 @@ name: EKS CICD
 
 on:
   push:
-    branches: [ "CICD" ]
+    branches: [ "dev" ]
     paths:
       - "ReqSys/**"
 
