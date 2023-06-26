@@ -44,14 +44,14 @@ jobs:
         queue_name=IntegrateEventQueue
         queue_url=$(aws sqs get-queue-url --queue-name "$queue_name" --query 'QueueUrl' --output text)
         echo $queue_url
-        echo "::set-output name=queue_url::$queue_url"
+        echo "::set-output name=sqs_url::$queue_url"
           
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
         ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
       run: |
-        echo ${{ steps.get-sqs-arn.outputs.queue_url }}
+        echo ${{ steps.get-sqs-url.outputs.sqs_url }}
         docker build \
         --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }} \
         --build-arg HOSTNAME=${{ secrets.REQSYS_HOSTNAME }} \
@@ -60,7 +60,7 @@ jobs:
         --build-arg DATABASE=${{ secrets.REQSYS_DATABASE }} \
         --build-arg AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_1 }} \
         --build-arg AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_1 }} \
-        --build-arg QUEUE_URL=${{ steps.get-sqs-arn.outputs.queue_url }} \
+        --build-arg QUEUE_URL=${{ steps.get-sqs-url.outputs.sqs_url }} \
         --build-arg REGION=${{ secrets.REGION }} \
         ./ReqSys
         docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
