@@ -43,7 +43,7 @@ jobs:
       run: |
         queue_name=IntegrateEventQueue
         queue_url=$(aws sqs get-queue-url --queue-name "$queue_name" --query 'QueueUrl' --output text)
-        echo queue_url
+        echo $queue_url
           
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
