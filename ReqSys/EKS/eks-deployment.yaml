@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: eks-reqsys-backend
-          image: 131466135658.dkr.ecr.ap-northeast-2.amazonaws.com/reqsys
+          image: 131466135658.dkr.ecr.ap-northeast-2.amazonaws.com/reqsys:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

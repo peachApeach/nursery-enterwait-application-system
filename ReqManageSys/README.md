@@ -38,3 +38,4 @@
 ### Lambda : SQS To Enterwait
 - ACCEPT_URL: 입소대기신청시스템/request/accept 로 지정 필요
 - REJECT_URL: 입소대기신청시스템/request/reject 로 지정 필요
+

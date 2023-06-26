@@ -10,7 +10,7 @@ router.get('/', connection, async (req, res) => {
     res.send('DB 초기화에 성공하였습니다.');
   } catch (err) {
     console.log(err);
-    res.send('DB 초기화에 실패하였씁니다.');
+    res.send('DB 초기화에 실패하였습니다.');
   }
 });
 

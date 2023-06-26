@@ -1,5 +1,5 @@
 resources:
-- deployment.yaml
+- eks-deployment.yaml
 
 images:
 - name: amazonaws.com/kubernetes-github-actions
