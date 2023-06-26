@@ -80,6 +80,7 @@ jobs:
         export IMAGE_TAG=${{ github.sha }}
         export KUBECONFIG=kubeconfig.yaml
         envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
+        cat ReqSys/EKS/kustomization.tmpl.yaml
         cat ReqSys/EKS/kustomization.yaml
         kubectl config current-context 
         kubectl apply -k ReqSys/EKS
