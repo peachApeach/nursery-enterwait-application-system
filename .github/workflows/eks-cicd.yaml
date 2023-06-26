@@ -49,7 +49,7 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
-        ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         echo ${{ steps.get-sqs-url.outputs.sqs_url }}
         docker build \
@@ -85,4 +85,3 @@ jobs:
         cat ReqSys/EKS/kustomization.yaml
         kubectl config current-context 
         kubectl apply -k ReqSys/EKS
-
