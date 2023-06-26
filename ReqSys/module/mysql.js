@@ -24,6 +24,13 @@ const selectRequest = (body) => `
    WHERE request_id = '${body.request_id}'
 `;
 
+const selectRequests = (body) => `
+  SELECT *
+    FROM request
+   WHERE 1 = 1
+     ${body}
+`;
+
 const insertRequest = (body) => `
   INSERT INTO request(request_id,
                       request_status,
@@ -152,6 +159,7 @@ module.exports = {
   connection,
   queries: {
     selectRequest,
+    selectRequests,
     insertRequest,
     updateRequest,
     cRequest,
