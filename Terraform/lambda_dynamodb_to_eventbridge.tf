@@ -50,11 +50,11 @@ resource "aws_cloudwatch_log_group" "loggroup_lf_dte" {
 
 data "archive_file" "lf_dte_zip" {
   type        = "zip"
-  source_dir  = "./lambda/dynamodb_to_eventbridge"
+  source_dir  = "../ReqManageSys/dynamodb_to_eventbridge"
   excludes    = [
     "node_modules"
   ]
-  output_path = "./lambda/lf_dte.zip"
+  output_path = "./lf_dte.zip"
 }
 
 resource "aws_lambda_function" "dynamodb_to_eventbridge" {
@@ -67,7 +67,6 @@ resource "aws_lambda_function" "dynamodb_to_eventbridge" {
 
   environment {
     variables = {
-#      REGION         = "ap-northeast-2"
       EVENT_BUS_NAME = aws_cloudwatch_event_bus.integrate_event_bus.arn
     }
   }

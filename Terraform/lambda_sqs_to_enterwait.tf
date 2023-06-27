@@ -39,8 +39,8 @@ resource "aws_cloudwatch_log_group" "loggroup_lf_ste" {
 
 data "archive_file" "lf_ste_zip" {
   type        = "zip"
-  source_dir  = "./lambda/sqs_to_enterwait"
-  output_path = "./lambda/lf_ste.zip"
+  source_dir  = "../ReqManageSys/sqs_to_enterwait"
+  output_path = "./lf_ste.zip"
 }
 
 resource "aws_lambda_function" "sqs_to_enterwait" {
@@ -53,8 +53,8 @@ resource "aws_lambda_function" "sqs_to_enterwait" {
 
   environment {
     variables = {
-      ACCEPT_URL = "http://ec2-54-180-102-41.ap-northeast-2.compute.amazonaws.com:3000/request/accept"
-      REJECT_URL = "http://ec2-54-180-102-41.ap-northeast-2.compute.amazonaws.com:3000/request/reject"
+      ACCEPT_URL = "https://was.loveliverpool.click/request/accept"
+      REJECT_URL = "https://was.loveliverpool.click/request/reject"
     }
   }
 }

@@ -39,8 +39,8 @@ resource "aws_cloudwatch_log_group" "loggroup_lf_stn" {
 
 data "archive_file" "lf_stn_zip" {
   type        = "zip"
-  source_dir  = "./lambda/sqs_to_nursery"
-  output_path = "./lambda/lf_stn.zip"
+  source_dir  = "../ReqManageSys/sqs_to_nursery"
+  output_path = "./lf_stn.zip"
 }
 
 resource "aws_lambda_function" "sqs_to_nursery" {
@@ -53,8 +53,8 @@ resource "aws_lambda_function" "sqs_to_nursery" {
 
   environment {
     variables = {
-      REQUEST_URL = "http://ec2-13-209-17-137.ap-northeast-2.compute.amazonaws.com:4000/enterwait/request"
-      CANCEL_URL = "http://ec2-13-209-17-137.ap-northeast-2.compute.amazonaws.com:4000/enterwait/cancel"
+      REQUEST_URL = "https://${aws_route53_record.www.fqdn}/enterwait/request"
+      CANCEL_URL = "https://${aws_route53_record.www.fqdn}/enterwait/cancel"
     }
   }
 }

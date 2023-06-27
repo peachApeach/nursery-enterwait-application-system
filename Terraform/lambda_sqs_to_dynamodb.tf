@@ -50,11 +50,11 @@ resource "aws_cloudwatch_log_group" "loggroup_lf_std" {
 
 data "archive_file" "lf_std_zip" {
   type        = "zip"
-  source_dir  = "./lambda/sqs_to_dynamodb"
+  source_dir  = "../ReqManageSys/sqs_to_dynamodb"
   excludes    = [
     "node_modules"
   ]
-  output_path = "./lambda/lf_std.zip"
+  output_path = "./lf_std.zip"
 }
 
 resource "aws_lambda_function" "sqs_to_dynamodb" {
@@ -67,7 +67,6 @@ resource "aws_lambda_function" "sqs_to_dynamodb" {
 
   environment {
     variables = {
-#      REGION     = "ap-northeast-2"
       TABLE_NAME = aws_dynamodb_table.integrate_event_dynamodb.name
     }
   }

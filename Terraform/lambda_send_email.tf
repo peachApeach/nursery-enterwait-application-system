@@ -37,11 +37,11 @@ resource "aws_cloudwatch_log_group" "loggroup_lf_se" {
 
 data "archive_file" "lf_se_zip" {
   type        = "zip"
-  source_dir  = "./lambda/send_email"
+  source_dir  = "../ReqManageSys/send_email"
   excludes    = [
     "node_modules"
   ]
-  output_path = "./lambda/lf_se.zip"
+  output_path = "./lf_se.zip"
 }
 
 resource "aws_lambda_function" "send_email" {
@@ -51,12 +51,6 @@ resource "aws_lambda_function" "send_email" {
   runtime          = "nodejs18.x"
   role             = aws_iam_role.iam_lf_se.arn
   handler          = "index.handler"
-
-#  environment {
-#    variables = {
-#      REGION = "ap-northeast-2"
-#    }
-#  }
 }
 
 resource "aws_lambda_permission" "allow_request" {
