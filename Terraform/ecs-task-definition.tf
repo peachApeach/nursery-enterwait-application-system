@@ -43,7 +43,12 @@ resource "aws_ecs_task_definition" "final-project-ecs" {
                  }
               ],
               "essential": true,
-              "environment": [],
+              "environment": [
+                    {
+                        "name": "QUEUE_URL"
+                        "value": "${aws_sqs_queue.integrate_event_queue.id}"
+                    }
+              ],
               "mountPoints": [],
               "volumesFrom": [],
               "secrets": [
@@ -62,6 +67,18 @@ resource "aws_ecs_task_definition" "final-project-ecs" {
                     {
                         "name": "DATABASE",
                         "valueFrom": "arn:aws:secretsmanager:ap-northeast-2:131466135658:secret:ecs-dev-secretmanager-5yBYcX:DATABASE::"
+                    },
+                    {
+                        "name": "REGION",
+                        "valueFrom": "arn:aws:secretsmanager:ap-northeast-2:131466135658:secret:ecs-dev-secretmanager-5yBYcX:REGION::"
+                    },
+                    {
+                        "name": "AWS_ACCESS_KEY_ID",
+                        "valueFrom": "arn:aws:secretsmanager:ap-northeast-2:131466135658:secret:ecs-dev-secretmanager-5yBYcX:AWS_ACCESS_KEY_ID::"
+                    },
+                    {
+                        "name": "AWS_SECRET_ACCESS_KEY",
+                        "valueFrom": "arn:aws:secretsmanager:ap-northeast-2:131466135658:secret:ecs-dev-secretmanager-5yBYcX:AWS_SECRET_ACCESS_KEY::"
                     }
               ],
               "ulimits": [],
