@@ -34,4 +34,4 @@ POST 요청의 body는 JSON 포맷으로 내용은 동일합니다.
     "nursery_id": "A00017"
 }
 ```
-# test1
+# test2
