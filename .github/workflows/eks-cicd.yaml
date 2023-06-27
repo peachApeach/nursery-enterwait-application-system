@@ -1,0 +1,87 @@
+name: EKS CICD
+
+on:
+  push:
+    branches: [ "dev" ]
+    paths:
+      - "ReqSys/**"
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: ${{ secrets.REGION }}
+  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+  ECR_REPOSITORY: reqsys
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ref: 'CICD'
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_1 }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_1 }}
+        aws-region: ${{ env.AWS_REGION }}
+            
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+
+    - name: Get SQS ARN
+      id: get-sqs-url
+      run: |
+        queue_name=IntegrateEventQueue
+        queue_url=$(aws sqs get-queue-url --queue-name "$queue_name" --query 'QueueUrl' --output text)
+        echo $queue_url
+        echo "::set-output name=sqs_url::$queue_url"
+          
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |
+        echo ${{ steps.get-sqs-url.outputs.sqs_url }}
+        docker build \
+        --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }} \
+        --build-arg HOSTNAME=${{ secrets.REQSYS_HOSTNAME }} \
+        --build-arg USERNAME=${{ secrets.REQSYS_USERNAME }} \
+        --build-arg PASSWORD=${{ secrets.REQSYS_PASSWORD }} \
+        --build-arg DATABASE=${{ secrets.REQSYS_DATABASE }} \
+        --build-arg AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_1 }} \
+        --build-arg AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_1 }} \
+        --build-arg QUEUE_URL=${{ steps.get-sqs-url.outputs.sqs_url }} \
+        --build-arg REGION=${{ secrets.REGION }} \
+        ./ReqSys
+        docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+
+    - name: Get kubeconfig
+      run:
+        aws eks update-kubeconfig --name eks-reqsys --region ap-northeast-2 --kubeconfig kubeconfig.yaml
+
+    - uses: tale/kubectl-action@v1
+      with:
+        base64-kube-config: kubeconfig.yaml
+
+    - name: Deploy new image
+      run: |
+        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+        sudo mv kustomize /usr/local/bin
+        export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
+        export IMAGE_TAG=${{ github.sha }}
+        export KUBECONFIG=kubeconfig.yaml
+        envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
+        cat ReqSys/EKS/kustomization.tmpl.yaml
+        cat ReqSys/EKS/kustomization.yaml
+        kubectl config current-context 
+        kubectl apply -k ReqSys/EKS

@@ -128,17 +128,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# DS_Store
-**/.DS_Store
-
-# Local .terraform directories
-**/.terraform/*
-
-# .tfstate files
-*.tfstate
-*.tfstate.*
-
-# Include ignore files from the .terraformignore file, if it exists
-.terraformignore
-.terraform.lock.*

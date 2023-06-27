@@ -1,0 +1,14 @@
+{
+  "name": "dynamodb_to_eventbridge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@aws-sdk/client-eventbridge": "^3.357.0"
+  }
+}

@@ -14,7 +14,7 @@ const connection = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    res.status(500).send('DB Connection Error!');
+    res.status(500).send(`DB Connection Error!`);
   }
 };
 
@@ -27,7 +27,7 @@ const selectRequest = (body) => `
 const selectRequests = (body) => `
   SELECT *
     FROM request
-   WHERE 1 =1
+   WHERE 1 = 1
      ${body}
 `;
 
@@ -81,41 +81,6 @@ const updateRequest = (body) => `
    WHERE request_id = '${body.request_id}'
 `;
 
-const insertChild = (body) => `
-  INSERT INTO nursery_child(nursery_id,
-                            child_id,
-                            child_name,
-                            child_birthday,
-                            parent_name,
-                            parent_tel,
-                            parent_address,
-                            parent_postcode,
-                            parent_email,
-                            create_date,
-                            change_date)
-  VALUES('${body.nursery_id}',
-         '${body.child_id}',
-         '${body.child_name}',
-         '${body.child_birthday}',
-         '${body.parent_name}',
-         '${body.parent_tel}',
-         '${body.parent_address}',
-         '${body.parent_postcode}',
-         '${body.parent_email}',
-         '${moment(new Date(body.create_date)).format('YYYY-MM-DD HH:mm:ss')}',
-         '${moment(new Date(body.create_date)).format('YYYY-MM-DD HH:mm:ss')}')
-  ON DUPLICATE KEY
-  UPDATE child_name = '${body.child_name}',
-         child_birthday = '${body.child_birthday}',
-         parent_name = '${body.parent_name}',
-         parent_tel = '${body.parent_tel}',
-         parent_address = '${body.parent_address}',
-         parent_postcode = '${body.parent_postcode}',
-         parent_email = '${body.parent_email}',
-         create_date = '${moment(new Date(body.create_date)).format('YYYY-MM-DD HH:mm:ss')}',
-         change_date = '${moment(new Date(body.create_date)).format('YYYY-MM-DD HH:mm:ss')}'
-`;
-
 const cRequest = () => `
   CREATE TABLE \`request\` (
     \`request_id\` varchar(100) NOT NULL,
@@ -136,7 +101,7 @@ const cRequest = () => `
     PRIMARY KEY (
       \`request_id\`
     )
-  );                                  
+  );
 `;
 
 const cNursery = () => `
@@ -158,23 +123,34 @@ const cNursery = () => `
   );
 `;
 
-const cNurseryChild = () => `
-  CREATE TABLE \`nursery_child\` (
-    \`nursery_id\` varchar(100) NOT NULL,
-    \`child_id\` varchar(100) NOT NULL,
-    \`child_name\` varchar(100) NOT NULL,
-    \`child_birthday\` varchar(100)  NOT NULL,
-    \`parent_name\` varchar(100) NOT NULL,
-    \`parent_tel\` varchar(100) NOT NULL,
-    \`parent_address\` varchar(150) NOT NULL,
-    \`parent_postcode\` varchar(5) NOT NULL,
-    \`parent_email\` varchar(100) NOT NULL,
-    \`create_date\` timestamp  NOT NULL,
-    \`change_date\` timestamp  NOT NULL,
+const cChild = () => `
+  CREATE TABLE \`child\` (
+    \`child_id\` int NOT NULL,
+    \`child_name\` varchar(20) NOT NULL,
+    \`child_birthday\` varchar(10) NOT NULL,
+    \`user_id\` int(15) NOT NULL,
+    \`create_date\` timestamp NOT NULL,
+    \`change_date\` timestamp NOT NULL,
 
     PRIMARY KEY (
-      \`nursery_id\`,
       \`child_id\`
+    )
+  );
+`;
+
+const cUser = () => `
+  CREATE TABLE \`user\` (
+    \`user_id\` varchar(15) NOT NULL,
+    \`user_password\` varchar(20) NOT NULL,
+    \`user_name\` varchar(15) NOT NULL,
+    \`user_brithday\` varchar(10) NOT NULL,
+    \`user_postcode\` int NOT NULL,
+    \`user_address\` varchar(50) NOT NULL,
+    \`create_date\` timestamp NOT NULL,
+    \`change_date\` timestamp NOT NULL,
+
+    PRIMARY KEY (
+      \`user_id\`
     )
   );
 `;
@@ -186,9 +162,10 @@ module.exports = {
     selectRequests,
     insertRequest,
     updateRequest,
-    insertChild,
     cRequest,
     cNursery,
-    cNurseryChild
+    cChild,
+    cUser
   }
 };
+

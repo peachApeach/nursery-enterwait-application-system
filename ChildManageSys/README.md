@@ -1,4 +1,4 @@
-# 입소대기신청시스템(ReqSys)
+# 아동관리시스템(ChildManageSys)
 ### 환경변수
 - HOSTNAME: 데이터베이스 호스트명
 - USERNAME: 데이터베이스 유저명
@@ -15,11 +15,10 @@ dev 환경에서는 dotenv를 사용할 수 있습니다.
 ### API 엔드포인트
 #### GET /admin/init (DB 초기화)
 DROP 미구현으로 RDS 생성 후 최초 1회에만 정상 동작합니다.
-#### POST /enterwait/request (신청)
-#### POST /enterwait/cancel (취소)
-#### POST /request/accept (아동관리시스템에서 승인한 정보 동기화)
-#### POST /request/reject (아동관리시스템에서 반려한 정보 동기화)
-
+#### POST /request/accept (승인)
+#### POST /request/reject (반려)
+#### POST /enterwait/request (입소대기신청시스템에서 신청한 정보 동기화)
+#### POST /enterwait/cancel (입소대기신청시스템에서 취소한 정보 동기화)
 POST 요청의 body는 JSON 포맷으로 내용은 동일합니다.
 ```JSON
 {
@@ -35,3 +34,4 @@ POST 요청의 body는 JSON 포맷으로 내용은 동일합니다.
     "nursery_id": "A00017"
 }
 ```
+# test2

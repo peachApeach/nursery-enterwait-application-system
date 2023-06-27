@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.use('/admin/init', require('./route/admin/init'));
 
+app.use('/request', require('./route/request/inquiry'));
 app.use('/request/accept', require('./route/request/accept'));
 app.use('/request/reject', require('./route/request/reject'));
 
