@@ -8,6 +8,24 @@ terraform {
   required_version = ">= 1.2.0"
 }
 
+#Lambda Function Default Assume Role
+ data "aws_iam_policy_document" "assume_role" {
+   statement {
+     effect = "Allow"
+ 
+      principals {
+        type        = "Service"
+        identifiers = [
+          "lambda.amazonaws.com"
+        ]
+      }
+ 
+      actions = [
+        "sts:AssumeRole"
+      ]
+    }
+ }
+
 provider "aws" {
   region = "ap-northeast-2"
 }

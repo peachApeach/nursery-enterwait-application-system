@@ -8,3 +8,4 @@
 # Include ignore files from the .terraformignore file, if it exists
 .terraformignore
 .terraform.lock.*
+*.zip
