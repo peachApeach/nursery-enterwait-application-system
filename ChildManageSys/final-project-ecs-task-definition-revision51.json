@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:131466135658:task-definition/final-project-ecs-task-definition:45",
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:131466135658:task-definition/final-project-ecs-task-definition:51",
     "containerDefinitions": [
         {
             "name": "final-project-ecs-task",
@@ -29,7 +29,12 @@
                 }
             ],
             "essential": true,
-            "environment": [],
+            "environment": [
+                {
+                    "name": "QUEUE_URL",
+                    "value": "https://sqs.ap-northeast-2.amazonaws.com/131466135658/IntegrateEventQueue"
+                }
+            ],
             "mountPoints": [],
             "volumesFrom": [],
             "secrets": [
@@ -48,6 +53,18 @@
                 {
                     "name": "DATABASE",
                     "valueFrom": "arn:aws:secretsmanager:ap-northeast-2:131466135658:secret:ecs-dev-secretmanager-5yBYcX:DATABASE::"
+                },
+                {
+                    "name": "REGION",
+                    "valueFrom": "arn:aws:secretsmanager:ap-northeast-2:131466135658:secret:ecs-dev-secretmanager-5yBYcX:REGION::"
+                },
+                {
+                    "name": "AWS_ACCESS_KEY_ID",
+                    "valueFrom": "arn:aws:secretsmanager:ap-northeast-2:131466135658:secret:ecs-dev-secretmanager-5yBYcX:AWS_ACCESS_KEY_ID::"
+                },
+                {
+                    "name": "AWS_SECRET_ACCESS_KEY",
+                    "valueFrom": "arn:aws:secretsmanager:ap-northeast-2:131466135658:secret:ecs-dev-secretmanager-5yBYcX:AWS_SECRET_ACCESS_KEY::"
                 }
             ],
             "ulimits": [],
@@ -65,7 +82,7 @@
     "family": "final-project-ecs-task-definition",
     "executionRoleArn": "arn:aws:iam::131466135658:role/ecsExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 45,
+    "revision": 51,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -107,7 +124,7 @@
     ],
     "cpu": "1024",
     "memory": "3072",
-    "registeredAt": "2023-06-27T05:41:37.003Z",
+    "registeredAt": "2023-06-27T08:05:21.541Z",
     "registeredBy": "arn:aws:iam::131466135658:user/wendy8432",
     "tags": []
 }
