@@ -1,6 +1,11 @@
 #ECS-cluster 생성 코드
 resource "aws_ecs_cluster" "final-project-ecs-cluster" {
   name = "final-project-cluster"
+  #Cluster에서 Container Insights CloudWatch Log 설정
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
 }
 
 #ECS-service 생성 코드
@@ -13,7 +18,7 @@ resource "aws_ecs_service" "final-project-service" {
   #ECS의 service가 위치하는 네트워크를 설정
   network_configuration {
     subnets          = [aws_subnet.final-project-ecs-vpc-public-subnet-2a.id, aws_subnet.final-project-ecs-vpc-public-subnet-2c.id]
-    security_groups  = [aws_security_group.ecs-tasks-sg.id]
+    security_groups  = [aws_security_group.ecs-tasks-sg.id, aws_security_group.db_access_sg.id]
     assign_public_ip = true
   }
   #ALB 연결

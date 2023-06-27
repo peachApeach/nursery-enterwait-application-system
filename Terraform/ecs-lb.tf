@@ -3,7 +3,7 @@ resource "aws_lb" "final-projcet-ecs-lb" {
   name               = "alb"
   subnets            = [aws_subnet.final-project-ecs-vpc-public-subnet-2a.id, aws_subnet.final-project-ecs-vpc-public-subnet-2c.id]
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.final-project-ecs-public-security-group.id]
+  security_groups    = [aws_security_group.lb.id]
 
     #현재 엑세스 로그 부분이 s3 버킷에 엑세스 정책이 제대로 작동하지 않아서 빼놓은 상태로 사용 불가능 코드
 #   access_logs {
@@ -70,3 +70,8 @@ resource "aws_lb_target_group" "final-project-ecs-service-alb-tg" {
     create_before_destroy = true
   }
 }
+
+# resource "aws_lb_target_group_attachment" "4000-port" {
+#   target_group_arn = aws_lb_target_group.final-project-ecs-service-alb-tg.arn
+#   port             = 4000
+# }

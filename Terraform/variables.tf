@@ -8,6 +8,12 @@ variable "db_password" {
   description = "Password for the database"
 }
 
+variable "db_database" {
+  type        = string
+  description = "Name for the database"
+  default = "nursery"
+}
+
 variable "app_name" {
   type = string
   default = "final-project-service"
@@ -20,7 +26,7 @@ variable "container_name" {
 
 variable "container_port" {
   type    = number
-  default = 80
+  default = 4000
 }
 
 variable "domain" {
