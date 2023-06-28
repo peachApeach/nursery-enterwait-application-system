@@ -1,9 +1,9 @@
-# 어린이집 입소 대기 시스템
+# 🐥 어린이집 입소 대기 시스템 🐥
 - 어린이집 입소대기 시스템을 운영하는 한 기관에서 기존에 운영하던 온프레미스 기반의 시스템을 퍼블릭 클라우드로 이관
 # Architecture Diagram
 - 어린이집 입소대기 시스템과 아동 관리 시스템으로 이루어져 있으며 각 시스템을 동기화 해줄 서비스가 가운데에 위치
   
-![team7_final_0628](https://github.com/cs-devops-bootcamp/devops-04-Final-Team7/assets/107600263/8480603a-53f8-4f68-9413-570cbe39e6da)
+![team7___3](https://github.com/cs-devops-bootcamp/devops-04-Final-Team7/assets/107600263/50a8f708-738f-482e-8829-1ae905b294f1)
 
 # Tools
 ### ✔️ OS & Editor
@@ -42,7 +42,7 @@
 - AWS_SECRET_ACCESS_KEY: AWS IAM 시크릿액세스키
   - 해당 액세스키는 sqs:SendMessage 권한을 가지고 있어야합니다.
 - QUEUE_URL: 통합 이벤트 큐 URL
-dev 환경에서는 dotenv를 사용할 수 있습니다.
+
 ### API Endpoint
 | Method   | Endpoint                                      | Description                              |
 | -------- | ---------------------------------------- | ---------------------------------------- |
@@ -126,8 +126,6 @@ POST 요청의 body는 JSON 포맷으로 내용은 동일합니다.
 - AWS_SECRET_ACCESS_KEY: AWS IAM 시크릿액세스키
   - 해당 액세스키는 sqs:SendMessage 권한을 가지고 있어야합니다.
 - QUEUE_URL: 통합 이벤트 큐 URL
-
-dev 환경에서는 dotenv를 사용할 수 있습니다.
 
 ### API Endpoint
 | Method   | Endpoint                                      | Description                              |
