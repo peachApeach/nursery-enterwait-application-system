@@ -2,6 +2,5 @@ resources:
 - eks-deployment.yaml
 
 images:
-- name: amazonaws.com/kubernetes-github-actions
-  newName: ${ECR_REPOSITORY}
+- name: ${ECR_REPOSITORY}
   newTag: ${IMAGE_TAG}
