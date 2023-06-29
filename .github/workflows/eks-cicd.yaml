@@ -80,6 +80,7 @@ jobs:
         export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
         export IMAGE_TAG=${{ github.sha }}
         export KUBECONFIG=kubeconfig.yaml
+        echo ${{ github.sha }}
         envsubst < ReqSys/EKS/kustomization.tmpl.yaml > ReqSys/EKS/kustomization.yaml
         cat ReqSys/EKS/kustomization.tmpl.yaml
         cat ReqSys/EKS/kustomization.yaml
