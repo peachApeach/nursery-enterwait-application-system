@@ -9,3 +9,6 @@
 .terraformignore
 .terraform.lock.*
 *.zip
+
+# set variable files
+*.tfvars

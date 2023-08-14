@@ -38,3 +38,47 @@ variable "domain-certificate" {
   type = string
   default = "*.loveliverpool.click"
 }
+
+# database connection variables
+variable "HOSTNAME" {
+  description = "HOSTNAME"
+  type = map
+  default = {}
+}
+
+variable "DATABASE" {
+  description = "DATABASE"
+  type = map
+  default = {}
+}
+
+variable "USERNAME" {
+  description = "USERNAME"
+  type = map
+  default = {}
+}
+
+variable "PASSWORD" {
+  description = "PASSWORD"
+  type = map
+  default = {}
+}
+
+# AWS Access variables
+variable "AWS_ACCESS_KEY_ID" {
+  description = "AWS_ACCESS_KEY_ID"
+  type = map
+  default = {}
+}
+
+variable "AWS_SECRET_ACCESS_KEY" {
+  description = "AWS_SECRET_ACCESS_KEY"
+  type = map
+  default = {}
+}
+
+variable "REGION" {
+  description = "REGION"
+  type = map
+  default = {}
+}
